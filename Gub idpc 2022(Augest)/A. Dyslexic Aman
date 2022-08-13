@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ull unsigned long long
+#define ll long long
+string miror="AHIMOTUVWXY";
+int arr[26];
+map<char,int>mp;
+string a="aeiou",s;
+
+
+
+void solve(){
+    cin>>s;
+    char c='o';
+    int ok=1;
+    for(int i=0; i<s.size(); i++){
+        if(mp[s[i]]==1){
+            if(c=='v'){
+                ok=0;
+                break;
+            }
+            else{
+                c='v';
+            }
+        }
+        else{
+            if(c=='c'){
+                ok=0;
+                break;
+            }
+            else{
+                c='c';
+            }
+        }
+    }
+    if(ok) cout<<"Easy"<<endl;
+    else cout<<"Hard"<<endl;
+    return;
+}
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+
+
+    int t=1, tc=1;
+    for(int i=0; i<a.size(); i++){
+        mp[a[i]]=1;
+    }
+    cin>>t;
+    while(t--){
+
+        //cout<<"Case "<<tc++<<": ";
+        solve();
+    }
+
+    return 0;
+}
