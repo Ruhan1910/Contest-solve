@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ull unsigned long long
+#define ll long long
+string miror="AHIMOTUVWXY";
+int arr[26];
+map<char,int>mp;
+string a="aeiou",s;
+
+
+
+void solve(){
+   ll a,ab1,ac1, ab2,ac2;
+   cin>>a>>ab1>>ac1>>ab2>>ac2;
+   cout<<((a^ab1)^ab2)<<" "<<((a^ac1)^ac2)<<endl;
+}
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+
+
+    int t=1, tc=1;
+
+    //cin>>t;
+    while(t--){
+
+        //cout<<"Case "<<tc++<<": ";
+        solve();
+    }
+
+    return 0;
+}
