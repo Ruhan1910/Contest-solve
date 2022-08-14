@@ -1,0 +1,99 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define ull unsigned long long
+#define ll long long
+#define pii pair<int,int>
+#define MAX 1000005
+
+
+int arr[MAX],cnt[MAX], ans[MAX];
+int n,q,block_size,ansr=0;
+pair<pii,int>qry[MAX];
+
+bool cmp(pair<pii,int>x,pair<pii,int>y){
+    int xx=x.first.first/block_size;//find the block number where it belongs
+    int yy=y.first.first/block_size;
+    if(xx!=yy) return xx<yy;//if the block number are not same sort according to smaller block
+    return x.first.second<y.first.second;//if block size same sort according to query right position
+}
+
+void add(int x){
+    if(cnt[x]==0){//thats mean it is a new element so we will direct xor the frequency of the element 
+        ansr^=1;
+        cnt[x]++;
+    }
+    else{//here it is not a new element 
+        ansr^=cnt[x];//first we remove the previous frequency of this number
+        cnt[x]++;
+        ansr^=cnt[x];//now add the new frequency
+    }
+}
+void Remove(int x){
+    ansr^=cnt[x];
+    cnt[x]--;
+    ansr^=cnt[x];
+}
+
+void solve2(){
+    int l=0, r=-1;//initialize the left and right pointer 
+    for(int i=0; i<q; i++){
+        int lp=qry[i].first.first;//first query left position
+        int rp=qry[i].first.second;//first query right position
+
+        while(r<rp){
+            r++;
+            add(arr[r]);//thus it belongs to the query we add this 
+        }
+        while(r>rp){
+            Remove(arr[r]);//thus it in the outside of query we remove this
+            r--;
+        }
+        while(l<lp){
+            Remove(arr[l]);
+            l++;
+        }
+        while(l>lp){
+            l--;
+            add(arr[l]);
+        }
+        ans[qry[i].second]=ansr;//store ans according to the query position
+    }
+
+    for(int i=0; i<q; i++)
+        cout<<ans[i]<<endl;
+}
+
+void solve(){
+    cin>>n;
+    for(int i=1; i<=n; i++) cin>>arr[i];//taking input in array
+    cin>>q;
+    for(int i=0; i<q; i++){//store every query because we want to calculate all query result first then we will print the result
+        int x,y; cin>>x>>y;
+        qry[i].first.first=x;
+        qry[i].first.second=y;
+        qry[i].second=i;
+    }
+    block_size=sqrt(n);//find block size like arr[9]=[1,2,3],[4,5,6],[7,8,9]
+    sort(qry,qry+q,cmp);//sort the query 
+
+    solve2();
+
+    return;
+}
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int t=1,tc=1;
+    //cin>>t;
+    while(t--){
+        solve();
+    }
+
+    return 0;
+}
